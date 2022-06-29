@@ -7,4 +7,3 @@ namespace Acudir.Domain.Interfaces
 		bool Activo { get; set; }
 	}
 }
-

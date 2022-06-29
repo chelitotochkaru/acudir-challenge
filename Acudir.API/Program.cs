@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
+using Acudir.API.Configuration;
+using Acudir.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+
 
 // Add services to the container.
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -20,6 +24,10 @@ builder.Services
         setup.GroupNameFormat = "'v'VVV";
         setup.SubstituteApiVersionInUrl = true;
     });
+
+// database
+builder.Services.AddDatabaseModule(builder.Configuration);
+// builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Acudir")));
 
 // swagger documentation
 builder.Services.AddSwaggerGen(setup =>
@@ -70,8 +78,9 @@ builder.Services.AddSwaggerGen(setup =>
     });
 });
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 WebApplication app = builder.Build();
+IServiceProvider serviceProvider = app.Services.GetRequiredService<IServiceProvider>();
 
 if (app.Environment.IsDevelopment())
 {
@@ -83,7 +92,14 @@ if (app.Environment.IsDevelopment())
             setup.SwaggerEndpoint($"/swagger/v2/swagger.json", $"v2");
         });
 }
+//app.UseDatabaseMigration(serviceProvider, app.Environment);
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
+    if (builder.Environment.IsDevelopment())
+        context.Database.Migrate();
+}
 app.UseApiVersioning();
 app.UseHttpsRedirection();
 app.UseAuthorization();

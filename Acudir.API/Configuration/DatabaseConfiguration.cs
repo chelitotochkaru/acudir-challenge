@@ -8,7 +8,7 @@ namespace Acudir.API.Configuration
     {
         public static IServiceCollection AddDatabaseModule(this IServiceCollection services, IConfiguration configuration)
         {
-            var connection = configuration.GetConnectionString("AppDbContext");
+            var connection = configuration.GetConnectionString("AcudirChallengeDatabase");
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
 
             return services;

@@ -14,8 +14,8 @@ namespace Acudir.Infrastructure
 
         #region Constructor
 
-        public ApplicationDbContext()
-		{
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
             //
 		}
 

@@ -14,6 +14,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.6">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -27,10 +31,15 @@
     <None Remove="Controllers\v1\" />
     <None Remove="Microsoft.AspNetCore.Mvc.Versioning" />
     <None Remove="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" />
+    <None Remove="Program copy.cs" />
+    <None Remove="Microsoft.EntityFrameworkCore.Design" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />
     <Folder Include="Controllers\" />
     <Folder Include="Controllers\v1\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Startup.cs" />
   </ItemGroup>
 </Project>
