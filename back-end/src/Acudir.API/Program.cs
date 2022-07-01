@@ -42,6 +42,9 @@ builder.Services.AddDatabaseModule(builder.Configuration);
 builder.Services
     .AddTransient<IPersonasService, PersonasService>();
 
+builder.Services
+    .AddRouting(opt => opt.LowercaseUrls = true);
+
 // swagger documentation
 builder.Services.AddSwaggerGen(setup =>
 {
@@ -113,8 +116,18 @@ using (var scope = app.Services.CreateScope())
     if (builder.Environment.IsDevelopment())
         context.Database.Migrate();
 }
+
 app.UseApiVersioning();
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseCors(policy =>
+{
+    policy
+        .WithOrigins("*")
+        .WithMethods("*")
+        .WithHeaders("*")
+        .WithExposedHeaders("Authorization,Link,X-Total-Count,X-Pagination")
+        .SetPreflightMaxAge(TimeSpan.FromSeconds(1800));
+});
 app.MapControllers();
 app.Run();

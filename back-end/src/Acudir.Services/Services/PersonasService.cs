@@ -39,5 +39,14 @@ public class PersonasService : IPersonasService
             Mail = persona.Mail
         };
     }
+
+    public async Task Delete(int id)
+    {
+        Persona persona = await _context.Personas
+            .FirstOrDefaultAsync(p => p.Id == id) ?? throw new Exception("Persona no encontrada");
+
+        _context.Personas.Remove(persona);
+        await _context.SaveChangesAsync();
+    }
 }
 

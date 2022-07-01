@@ -12,6 +12,12 @@ namespace Acudir.Services.Interfaces
         /// <returns></returns>
         Task<PersonasGetRandomResponse?> GetRandom();
 
+        /// <summary>
+        /// Deletes an entity Persona.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task Delete(int id);
     }
 }
 

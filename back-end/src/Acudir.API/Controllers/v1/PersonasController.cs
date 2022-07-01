@@ -36,6 +36,13 @@ namespace Acudir.API.Controllers.v1
             return Ok(await _personaService.GetRandom());
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            await _personaService.Delete(id);
+            return new EmptyResult();
+        }
+
         #endregion
     }
 }

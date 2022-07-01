@@ -17,14 +17,14 @@
 
     <b-row>
       <b-col>
-        <Card></Card>
-        <b-button variant="primary" @click="add">Siguiente</b-button>
+        <Card :persona=persona></Card>
+        <b-button variant="primary" @click="next">Siguiente</b-button>
       </b-col>
 
       <b-col>
         <b-row>
-          <b-col v-for="persona in personas" :key="persona.id" cols="12">
-            <Card editable="true"></Card>
+          <b-col v-for="(p, index) in personas" :key="p.id" cols="12">
+            <Card :persona=p :index=index :editable=true></Card>
           </b-col>
         </b-row>
       </b-col>
@@ -39,17 +39,33 @@
 </style>
 
 <script>
-import { mapMutations } from 'vuex'
 
 export default {
   computed: {
-    personas () {
-      return this.$store.state.personas.list
-    }
+    persona() {
+      return this.$store.state.storage.current
+    },
+    personas() {
+      return this.$store.state.storage.personas
+    },
+  },
+  async mounted() {
+    await this.search()
   },
   methods: {
+    async search() {
+      return fetch('http://localhost:8000/api/v1/personas/random')
+        .then(res => res.json())
+        .then((data) => {
+          this.$store.commit('storage/setCurrent', data)
+        })
+    },
     add(c) {
-      this.$store.commit('personas/add', { id: this.$store.state.personas.list.length + 1, nombre: 'Marcelo' })
+      this.$store.commit('storage/add', this.persona)
+    },
+    next() {
+      this.search()
+      this.add()
     }
   }
 }
