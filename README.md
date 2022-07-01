@@ -26,7 +26,7 @@ Para iniciar la aplicación ejecutar la siguiente linea de comando desde una con
 dotnet run --project src/Acudir.API/Acudir.API.csproj
 23
 ```
-Una vez iniciado el back-end se podrá acceder a la documentación Swagger desde la url [http://localhost:8000/swagger/index.html](http://localhost:8000/swagger/index.html))
+Una vez iniciado el back-end se podrá acceder a la documentación Swagger desde la url [http://localhost:8000/swagger/index.html](http://localhost:8000/swagger/index.html)
 
 ### Front-end
 Para iniciar la aplicación ejecutar las siguientes lineas de comando desde una consola:
