@@ -1,14 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
-using Acudir.API.Configuration;
+﻿using Acudir.API.Configuration;
 using Acudir.Infrastructure;
+using Acudir.Services;
+using Acudir.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 
 // Add services to the container.
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+        options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        options.SerializerSettings.Formatting = Formatting.Indented;
+    });
 builder.Services.AddEndpointsApiExplorer();
 
 // api versioning
@@ -27,7 +39,8 @@ builder.Services
 
 // database
 builder.Services.AddDatabaseModule(builder.Configuration);
-// builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Acudir")));
+builder.Services
+    .AddTransient<IPersonasService, PersonasService>();
 
 // swagger documentation
 builder.Services.AddSwaggerGen(setup =>

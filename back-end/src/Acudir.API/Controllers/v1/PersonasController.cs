@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Acudir.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,14 +13,16 @@ namespace Acudir.API.Controllers.v1
         #region Readonly Fields
 
         private readonly ILogger<PersonasController> _logger;
+        private readonly IPersonasService _personaService;
 
         #endregion
 
         #region Constructor
 
-        public PersonasController(ILogger<PersonasController> logger)
+        public PersonasController(ILogger<PersonasController> logger, IPersonasService personaService)
         {
             _logger = logger;
+            _personaService = personaService;
         }
 
         #endregion
@@ -27,10 +30,10 @@ namespace Acudir.API.Controllers.v1
 
         #region Methods
 
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("random")]
+        public async Task<IActionResult> GetRandom()
         {
-            return new EmptyResult();
+            return Ok(await _personaService.GetRandom());
         }
 
         #endregion

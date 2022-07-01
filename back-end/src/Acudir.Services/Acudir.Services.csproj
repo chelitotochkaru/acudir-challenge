@@ -14,4 +14,8 @@
     <Folder Include="Interfaces\" />
     <Folder Include="Services\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Acudir.Domain\Acudir.Domain.csproj" />
+    <ProjectReference Include="..\Acudir.Infrastructure\Acudir.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>
